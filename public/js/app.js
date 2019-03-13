@@ -2048,6 +2048,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2104,11 +2106,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['meta_data'],
   methods: {
     next: function next(page) {
-      this.$emit('next', page);
+      nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start();
+      var done = this.$emit('next', page);
+
+      if (done) {
+        nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done();
+      }
     }
   }
 });
@@ -71572,7 +71580,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_store__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/src/index.js");
+/* harmony import */ var _node_modules_nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../node_modules/nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
+/* harmony import */ var _node_modules_nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 
@@ -71583,6 +71594,7 @@ var options = {
   confirmButtonColor: '#41b882',
   cancelButtonColor: '#ff7674'
 };
+Vue.use(_node_modules_nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default.a);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_3__["default"], options);
 Vue.config.productionTip = false;
 new Vue({

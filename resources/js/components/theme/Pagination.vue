@@ -55,12 +55,19 @@
 </template>
 
 <script>
+import NProgress from 'nprogress';
 export default {
-    
+
     props :['meta_data'],
     methods:{
         next(page){
-            this.$emit('next',page);
+     NProgress.start();
+           var done= this.$emit('next',page);
+            if(done){
+                NProgress.done();
+            }
+          
+            
         }
     }
 }
