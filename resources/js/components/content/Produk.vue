@@ -9,7 +9,7 @@
                                 <h2>Manajemen Produk</h2>
                             </div>
                             <div class="col-md-6 float-right">
-                                <button href="" class="btn btn-primary float-right" @click="showModal">Tambah Data</button>
+                                <button href="" class="btn btn-primary float-right"  @click="showModal()" >Tambah Data</button>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                     <td>{{produk.stock}}</td>
                                     <td>{{format_date(produk.created_at)}}</td>
                                     <td>
-                                        <a href="" class="btn btn-warning btn-xs">Edit</a>
+                                        <a @click="showModal(produk.id)"  class="btn btn-warning btn-xs">Edit</a>
                                         <button @click.prevent="deleteProduk(produk.id,nomer)" class="btn btn-danger btn-xs">Hapus</button>
                                     </td>
                                 </tr>
@@ -57,7 +57,8 @@
                 </div>
             </div>
         </div>
-        <AddProduk ref="modal"></AddProduk>
+        
+        <AddProduk ref="modal" :aksi="aksi"></AddProduk>
     </div>
 </template>
 
@@ -87,7 +88,14 @@ export default {
                 },
             jumlah:{
                 data:false
+            },
+            aksi:{
+                status:'',
+                klik:'',
+                id:'',
+                ubah:{}
             }
+
         }
     },
     mounted(){
@@ -117,7 +125,30 @@ export default {
             });
             },
             
-            showModal() {
+            showModal(id) {
+
+                if(!id){
+                    this.aksi.status="Tambah";
+                    this.aksi.klik="Simpan";
+                    if(!this.aksi.ubah.id){
+                        this.aksi.ubah;
+                    }
+                    else{
+                        this.aksi.ubah={};
+                        this.aksi.ubah.id='';
+                    }
+
+                }
+                else{
+                    this.aksi.status="Edit";
+                    this.aksi.klik="Ubah";
+                    let uri= `http://localhost:8000/api/product/find/${id}`;
+                    axios.get(uri).then(response=>{
+                        this.aksi.ubah = response.data;
+                    })
+
+                 }
+
                 let element = this.$refs.modal.$el
                 $(element).modal('show')
             },
@@ -128,10 +159,10 @@ export default {
                 }
             },
 
-        formatPrice(value) {
-                let val = (value/1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            },
+            formatPrice(value) {
+                    let val = (value/1).toFixed(2).replace('.', ',')
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                },
     
         deleteProduk(id,no){
 

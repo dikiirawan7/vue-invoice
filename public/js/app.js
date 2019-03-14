@@ -1896,6 +1896,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -1918,6 +1919,12 @@ __webpack_require__.r(__webpack_exports__);
       },
       jumlah: {
         data: false
+      },
+      aksi: {
+        status: '',
+        klik: '',
+        id: '',
+        ubah: {}
       }
     };
   },
@@ -1949,7 +1956,28 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    showModal: function showModal() {
+    showModal: function showModal(id) {
+      var _this2 = this;
+
+      if (!id) {
+        this.aksi.status = "Tambah";
+        this.aksi.klik = "Simpan";
+
+        if (!this.aksi.ubah.id) {
+          this.aksi.ubah;
+        } else {
+          this.aksi.ubah = {};
+          this.aksi.ubah.id = '';
+        }
+      } else {
+        this.aksi.status = "Edit";
+        this.aksi.klik = "Ubah";
+        var uri = "http://localhost:8000/api/product/find/".concat(id);
+        axios.get(uri).then(function (response) {
+          _this2.aksi.ubah = response.data;
+        });
+      }
+
       var element = this.$refs.modal.$el;
       $(element).modal('show');
     },
@@ -1964,7 +1992,7 @@ __webpack_require__.r(__webpack_exports__);
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     deleteProduk: function deleteProduk(id, no) {
-      var _this2 = this;
+      var _this3 = this;
 
       var uri = "http://localhost:8000/api/product/delete/".concat(id);
       var Title = this.dataProduk[no].title;
@@ -1981,8 +2009,8 @@ __webpack_require__.r(__webpack_exports__);
           axios.delete(uri).then(function (response) {
             nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.start(); //ini untuk menghapus data di front end   this.posts.splice(oke,1);
 
-            _this2.$swal.fire('Deleted!', 'Produk ' + Title + ' Berhasil Dihapus.', 'success').then(function (response) {
-              _this2.fetchUsers(_this2.meta_data.current_page); //this.$delete(this.posts, oke);
+            _this3.$swal.fire('Deleted!', 'Produk ' + Title + ' Berhasil Dihapus.', 'success').then(function (response) {
+              _this3.fetchUsers(_this3.meta_data.current_page); //this.$delete(this.posts, oke);
 
             });
           }).then(function (response) {
@@ -2029,10 +2057,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      produk: {}
+    };
+  },
+  props: ['aksi'],
   methods: {
-    simpan: function simpan() {
-      alert("simpan");
+    Simpan: function Simpan(status) {
+      if (status == 'Simpan') {
+        this.SimpanProduk();
+      } else {
+        this.UbahProduk();
+      }
+    },
+    SimpanProduk: function SimpanProduk() {
+      alert(this.aksi.ubah.title);
+    },
+    UbahProduk: function UbahProduk() {
+      alert(this.aksi.ubah.title);
     }
   }
 });
@@ -56112,7 +56189,11 @@ var render = function() {
                     {
                       staticClass: "btn btn-primary float-right",
                       attrs: { href: "" },
-                      on: { click: _vm.showModal }
+                      on: {
+                        click: function($event) {
+                          return _vm.showModal()
+                        }
+                      }
                     },
                     [_vm._v("Tambah Data")]
                   )
@@ -56156,7 +56237,11 @@ var render = function() {
                               "a",
                               {
                                 staticClass: "btn btn-warning btn-xs",
-                                attrs: { href: "" }
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showModal(produk.id)
+                                  }
+                                }
                               },
                               [_vm._v("Edit")]
                             ),
@@ -56212,7 +56297,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("AddProduk", { ref: "modal" })
+      _c("AddProduk", { ref: "modal", attrs: { aksi: _vm.aksi } })
     ],
     1
   )
@@ -56288,31 +56373,87 @@ var render = function() {
         { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
         [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _vm._v("\n        haha\n    ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
+            _c("div", { staticClass: "modal-header" }, [
               _c(
-                "button",
+                "h5",
                 {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", "data-dismiss": "modal" }
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" }
                 },
-                [_vm._v("Close")]
+                [_vm._v(_vm._s(_vm.aksi.status) + " Produk")]
               ),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
-                  on: { click: _vm.simpan }
-                },
-                [_vm._v("Save changes")]
-              )
+              _vm._m(0)
+            ]),
+            _vm._v(" "),
+            _c("form", [
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("Nama Produk")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.aksi.ubah.title,
+                            expression: "aksi.ubah.title"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.aksi.ubah.title },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.aksi.ubah,
+                              "title",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _vm._m(2),
+                _vm._v(" "),
+                _vm._m(3)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.Simpan(_vm.aksi.klik)
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.aksi.klik))]
+                )
+              ])
             ])
           ])
         ]
@@ -56325,25 +56466,62 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", [_vm._v("Deskripsi")]),
+          _vm._v(" "),
+          _c("textarea", {
+            staticClass: "form-control",
+            attrs: { type: "text", rows: "3" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", [_vm._v("Harga")]),
+          _vm._v(" "),
+          _c("input", { staticClass: "form-control", attrs: { type: "text" } })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", [_vm._v("Stok")]),
+          _vm._v(" "),
+          _c("input", { staticClass: "form-control", attrs: { type: "text" } })
+        ])
+      ])
     ])
   }
 ]
