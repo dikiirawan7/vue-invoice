@@ -93,7 +93,7 @@ export default {
                 status:'',
                 klik:'',
                 id:'',
-                ubah:{}
+                ubah:{},
             }
 
         }

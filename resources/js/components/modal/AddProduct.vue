@@ -9,13 +9,14 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form >
+        <form>
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Nama Produk</label>
-                        <input type="text" class="form-control" v-model="aksi.ubah.title">
+                        <input type="text" name="namaProduk" class="form-control" v-model="aksi.ubah.title" v-validate="'required'" data-vv-as="Nama Produk" :class="{'is-invalid':errors.first('namaProduk')}" >
+                        <span v-if="errors.first('namaProduk')" class="text-danger">{{ errors.first('namaProduk') }}</span>
                     </div>
                 </div>
             </div>
@@ -23,7 +24,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Deskripsi</label>
-                        <textarea type="text" rows="3" class="form-control"></textarea>
+                        <textarea type="text" name="Deskripsi" rows="3" class="form-control" v-model="aksi.ubah.description" v-validate="'required'" data-vv-as="Deskripsi" :class="{'is-invalid':errors.first('Deskripsi')}"></textarea>
+                        <span v-if="errors.first('Deskripsi')" class="text-danger">{{ errors.first('Deskripsi') }}</span>
                     </div>
                 </div>
             </div>
@@ -31,15 +33,18 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Harga</label>
-                        <input type="text" class="form-control">
+                        <input type="text" name="Harga" class="form-control" v-model="aksi.ubah.price" v-validate="'required||numeric'" data-vv-as="Harga" :class="{'is-invalid':errors.first('Harga')}">
+                        <span v-if="errors.first('Harga')" class="text-danger">{{ errors.first('Harga') }}</span>
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Stok</label>
-                        <input type="text" class="form-control">
+                        <input type="text" name="stok" class="form-control" v-model="aksi.ubah.stock" v-validate="'required||numeric'" data-vv-as="Stok" :class="{'is-invalid':errors.first('Harga')}">
+                        <span v-if="errors.first('stok')" class="text-danger">{{ errors.first('stok') }}</span>
                     </div>
                 </div>
             </div>
@@ -61,10 +66,12 @@ export default {
     data(){
         return{
             produk:{},
+            message:''
         }
     },
     props :['aksi'],
     methods:{
+        
         Simpan(status){
             if(status=='Simpan'){
                 this.SimpanProduk();
@@ -76,10 +83,26 @@ export default {
         },
 
         SimpanProduk(){
-            alert(this.aksi.ubah.title);
+            this.$validator.validateAll().then((result) => {
+            if (result) {
+             alert('Form Submitted!');
+             return;
+            }
+
+            alert('Correct them errors!');
+           });
+            
+
         },
         UbahProduk(){
-            alert(this.aksi.ubah.title);
+            this.$validator.validateAll().then((result) => {
+            if (result) {
+             alert('Form Submitted!');
+             return;
+            }
+
+            alert('Correct them errors!');
+           });
         }
     }
 
