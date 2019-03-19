@@ -1932,6 +1932,15 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchUsers();
   },
   methods: {
+    CloseProduk: function CloseProduk() {
+      var element = this.$refs.modal.$el;
+      var closeModal = $(element).modal('hide');
+
+      if (closeModal) {
+        this.aksi.ubah = {};
+        this.fetchUsers(this.meta_data.current_page);
+      }
+    },
     fetchUsers: function fetchUsers() {
       var _this = this;
 
@@ -2108,23 +2117,42 @@ __webpack_require__.r(__webpack_exports__);
       if (status == 'Simpan') {
         this.SimpanProduk();
       } else {
-        this.UbahProduk();
+        this.UbahProduk(this.aksi.ubah.id);
       }
     },
-    SimpanProduk: function SimpanProduk() {
+    SimpanProduk: function SimpanProduk(e) {
+      var _this = this;
+
       this.$validator.validateAll().then(function (result) {
         if (result) {
-          alert('Form Submitted!');
+          var uri = 'http://localhost:8000/api/product';
+          axios.post(uri, _this.aksi.ubah).then(function (response) {
+            _this.$swal.fire('Produk Tersimpan!', 'You clicked the button!', 'success').then(function (response) {
+              _this.$emit('Simpan', status);
+            });
+          });
           return;
         }
 
-        alert('Correct them errors!');
+        _this.$swal.fire({
+          type: 'error',
+          title: 'Data Tidak Lengkap',
+          text: 'Tolong Lengkapi Data Produk!'
+        });
       });
     },
-    UbahProduk: function UbahProduk() {
+    UbahProduk: function UbahProduk(id) {
+      var _this2 = this;
+
+      var title = this.aksi.ubah.title;
       this.$validator.validateAll().then(function (result) {
         if (result) {
-          alert('Form Submitted!');
+          var uri = "http://localhost:8000/api/product/update/".concat(id);
+          axios.post(uri, _this2.aksi.ubah).then(function (response) {
+            _this2.$swal.fire('Produk ' + title + ' Telah Dirubah!', 'You clicked the button!', 'success').then(function (response) {
+              _this2.$emit('Simpan', status);
+            });
+          });
           return;
         }
 
@@ -65245,7 +65273,15 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("AddProduk", { ref: "modal", attrs: { aksi: _vm.aksi } })
+      _c("AddProduk", {
+        ref: "modal",
+        attrs: { aksi: _vm.aksi },
+        on: {
+          Simpan: function($event) {
+            return _vm.CloseProduk()
+          }
+        }
+      })
     ],
     1
   )

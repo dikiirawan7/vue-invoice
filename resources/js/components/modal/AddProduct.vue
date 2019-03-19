@@ -77,27 +77,52 @@ export default {
                 this.SimpanProduk();
             }
             else{
-                this.UbahProduk();
+                this.UbahProduk(this.aksi.ubah.id);
 
             }
         },
-
-        SimpanProduk(){
+    SimpanProduk(e){
             this.$validator.validateAll().then((result) => {
             if (result) {
-             alert('Form Submitted!');
+                
+                let uri='http://localhost:8000/api/product';
+                axios.post(uri,this.aksi.ubah).then((response)=>{
+                     this.$swal.fire(
+                    'Produk Tersimpan!',
+                    'You clicked the button!',
+                    'success'
+                    ).then(response=>{
+                         this.$emit('Simpan',status);
+                          
+                    });
+                });
              return;
             }
 
-            alert('Correct them errors!');
+            this.$swal.fire({
+                        type: 'error',
+                        title: 'Data Tidak Lengkap',
+                        text: 'Tolong Lengkapi Data Produk!'
+                        });
            });
             
 
         },
-        UbahProduk(){
+        
+        UbahProduk(id){
+            var title= this.aksi.ubah.title;
             this.$validator.validateAll().then((result) => {
             if (result) {
-             alert('Form Submitted!');
+             let uri=`http://localhost:8000/api/product/update/${id}`;
+                axios.post(uri,this.aksi.ubah).then((response)=>{
+                     this.$swal.fire(
+                    'Produk '+title+' Telah Dirubah!',
+                    'You clicked the button!',
+                    'success'
+                    ).then(response=>{
+                         this.$emit('Simpan',status);
+                    });
+                });
              return;
             }
 

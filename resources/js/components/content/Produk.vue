@@ -58,7 +58,7 @@
             </div>
         </div>
         
-        <AddProduk ref="modal" :aksi="aksi"></AddProduk>
+        <AddProduk ref="modal" :aksi="aksi" v-on:Simpan="CloseProduk()"></AddProduk>
     </div>
 </template>
 
@@ -102,6 +102,15 @@ export default {
         this.fetchUsers()
     },
     methods:{
+       CloseProduk(){
+            let element = this.$refs.modal.$el
+               var closeModal= $(element).modal('hide');
+                if(closeModal){
+                    this.aksi.ubah={};
+                    this.fetchUsers(this.meta_data.current_page);
+                }
+        }
+        ,
         fetchUsers(page=1){
                 axios.get('http://localhost:8000/api/product/',{
                     params:{

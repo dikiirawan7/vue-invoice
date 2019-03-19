@@ -17,7 +17,7 @@ Route::group(['prefix'=>'product'],function(){
 
     Route::post('/','ProductController@insertProduct');
     
-    Route::get('/update/{id}','ProductController@update');
+    Route::post('/update/{id}','ProductController@update');
     Route::get('/delete/{id}','ProductController@delete');
     Route::get('/{id}','ProductController@edit');
 
