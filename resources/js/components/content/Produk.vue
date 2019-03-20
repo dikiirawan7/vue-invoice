@@ -42,10 +42,20 @@
                                         <button @click.prevent="deleteProduk(produk.id,nomer)" class="btn btn-danger btn-xs">Hapus</button>
                                     </td>
                                 </tr>
-                                <tr v-show="jumlah.data">
-                                    <td colspan="6">Data kosong</td>
+                                
+                            </tbody>
+                            <tbody v-show="jumlah.data">
+                                <tr >
+                                    <td colspan="7"><center>Data kosong</center></td>
                                 </tr>
                             </tbody>
+                            <tbody v-show="displayError">
+                                <tr >
+                                    <td colspan="7"><center>{{errorMsg}}</center></td>
+                                </tr>
+                            </tbody>
+                           
+                            
 
                         </table>
                         <pagination 
@@ -94,7 +104,8 @@ export default {
                 klik:'',
                 id:'',
                 ubah:{},
-            }
+            },
+            displayError:false
 
         }
     },
@@ -107,6 +118,12 @@ export default {
                var closeModal= $(element).modal('hide');
                 if(closeModal){
                     this.aksi.ubah={};
+                    if(this.meta_data.total==0){
+                    this.jumlah.data=!this.jumlah.data;
+                    }
+                    else{
+                        this.jumlah.data
+                    }
                     this.fetchUsers(this.meta_data.current_page);
                 }
         }
@@ -124,14 +141,27 @@ export default {
                 this.meta_data.prev_page_url = response.data.prev_page_url;
                 this.meta_data.prev_page_url = response.data.prev_page_url;
                 this.meta_data.total = response.data.total;
-
+                this.displayError=false;
+                
                 if(this.meta_data.total==0){
-                    this.jumlah.data=!this.jumlah.data
+                    this.jumlah.data=!this.jumlah.data;
                 }
                 else{
                     this.jumlah.data
                 }
+            }).catch(error => {
+                let statusCode = error.response.status
+                if(statusCode==500){
+                    this.errorMsg='Tidak Tersambung Ke Database'
+                }
+                else{
+                    this.errorMsg=error
+                }
+                this.displayError=true
+                
+
             });
+
             },
             
             showModal(id) {

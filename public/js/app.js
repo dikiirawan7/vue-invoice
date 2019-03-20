@@ -1897,6 +1897,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1925,7 +1935,8 @@ __webpack_require__.r(__webpack_exports__);
         klik: '',
         id: '',
         ubah: {}
-      }
+      },
+      displayError: false
     };
   },
   mounted: function mounted() {
@@ -1938,6 +1949,13 @@ __webpack_require__.r(__webpack_exports__);
 
       if (closeModal) {
         this.aksi.ubah = {};
+
+        if (this.meta_data.total == 0) {
+          this.jumlah.data = !this.jumlah.data;
+        } else {
+          this.jumlah.data;
+        }
+
         this.fetchUsers(this.meta_data.current_page);
       }
     },
@@ -1957,12 +1975,23 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta_data.prev_page_url = response.data.prev_page_url;
         _this.meta_data.prev_page_url = response.data.prev_page_url;
         _this.meta_data.total = response.data.total;
+        _this.displayError = false;
 
         if (_this.meta_data.total == 0) {
           _this.jumlah.data = !_this.jumlah.data;
         } else {
           _this.jumlah.data;
         }
+      }).catch(function (error) {
+        var statusCode = error.response.status;
+
+        if (statusCode == 500) {
+          _this.errorMsg = 'Tidak Tersambung Ke Database';
+        } else {
+          _this.errorMsg = error;
+        }
+
+        _this.displayError = true;
       });
     },
     showModal: function showModal(id) {
@@ -65236,28 +65265,57 @@ var render = function() {
                               [_vm._v("Hapus")]
                             )
                           ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "tr",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.jumlah.data,
-                                expression: "jumlah.data"
-                              }
-                            ]
-                          },
-                          [
-                            _c("td", { attrs: { colspan: "6" } }, [
-                              _vm._v("Data kosong")
-                            ])
-                          ]
-                        )
+                        ])
                       ])
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.jumlah.data,
+                            expression: "jumlah.data"
+                          }
+                        ]
+                      },
+                      [
+                        _c("tr", [
+                          _c(
+                            "td",
+                            { attrs: { colspan: "7" } },
+                            [_c("center", [_vm._v("Data kosong")])],
+                            1
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.displayError,
+                            expression: "displayError"
+                          }
+                        ]
+                      },
+                      [
+                        _c("tr", [
+                          _c(
+                            "td",
+                            { attrs: { colspan: "7" } },
+                            [_c("center", [_vm._v(_vm._s(_vm.errorMsg))])],
+                            1
+                          )
+                        ])
+                      ]
+                    )
                   ],
                   2
                 ),
