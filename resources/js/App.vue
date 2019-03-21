@@ -4,7 +4,11 @@
         <router-view></router-view>
     </div>
 </template>
-
+<style>
+#nprogress .bar {
+background: #fd0404 !important;
+}
+</style>
 
 
 <script>

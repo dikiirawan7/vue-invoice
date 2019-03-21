@@ -13,7 +13,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="card-body">
                         <table class="table table-hover table-striped">
                             <thead>
@@ -72,6 +72,7 @@
     </div>
 </template>
 
+
 <script>
 import Pagination from '../theme/Pagination.vue'
 import NProgress from 'nprogress'
@@ -80,7 +81,7 @@ import moment from 'moment'
 import '../../../../node_modules/nprogress/nprogress.css'
 import exampleModal from '../modal/ExampleModal.vue'
 import AddProduk from '../modal/AddProduct.vue'
-
+NProgress.configure({ showSpinner: false });
 export default {
     components:{
         Pagination,
@@ -105,7 +106,8 @@ export default {
                 id:'',
                 ubah:{},
             },
-            displayError:false
+            displayError:false,
+            errorMsg:''
 
         }
     },
@@ -129,11 +131,13 @@ export default {
         }
         ,
         fetchUsers(page=1){
+                NProgress.start();
                 axios.get('http://localhost:8000/api/product/',{
                     params:{
                         page
                     }
                 }).then(response=>{
+                    
                 this.dataProduk = response.data.data;
                 this.meta_data.last_page = response.data.last_page;
                 this.meta_data.range = 3;
@@ -149,7 +153,9 @@ export default {
                 else{
                     this.jumlah.data
                 }
+                NProgress.done();
             }).catch(error => {
+                
                 let statusCode = error.response.status
                 if(statusCode==500){
                     this.errorMsg='Tidak Tersambung Ke Database'
@@ -158,7 +164,7 @@ export default {
                     this.errorMsg=error
                 }
                 this.displayError=true
-                
+                NProgress.done();
 
             });
 
