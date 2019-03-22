@@ -7,6 +7,11 @@
     <title>Document</title>
 </head>
 <body>
+    @if(session('success'))
+        {!!session('success')!!}
+        <h3>hehe</h3><br>
+    @endif
+
     @if($tes=='create')
     {{"oke"}}
     @else
@@ -17,6 +22,6 @@
         <input value="{{$t}}">
         <input value="{{$k}}">    
     </form>        
-            
+    <a href="{{url('tes/back')}}">Tes Back</a>
 </body>
 </html>
