@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\Customer;
 class TesController extends Controller
 {
     //
 
     public function create(){
+        $kk['oo']=array(array("sss"=>"kk","kkl"=>"pp"));
         $tes="create";
         $t="cte";
         $k="";
         return view('tesview', compact('tes','t','k'));
+    }
+
+    public function caricustomer(Customer $id){
+        return $id->nama;
     }
 
     public function edit(){
@@ -46,4 +52,6 @@ class TesController extends Controller
         return response()->json($data);
        
     }
+
+    
 }

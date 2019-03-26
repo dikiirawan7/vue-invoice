@@ -25,6 +25,24 @@ Route::group(['prefix'=>'product'],function(){
     
 });
 
+Route::group(['prefix'=>'customer'],function(){
+    Route::get('/','CustomerController@getData');
+    Route::post('/','CustomerController@insertCustomer');
+    
+    Route::post('/update/{id}','CustomerController@update');
+    Route::get('/delete/{id}','CustomerController@delete');
+    Route::get('/{id}','CustomerController@edit');
+});
+
+Route::group(['prefix'=>'invoice'],function(){
+    Route::get('/','InvoiceController@getData');
+    Route::post('/', 'InvoiceController@save')->name('invoice.store');
+    
+    Route::post('/update/{id}','InvoiceController@update');
+    Route::get('/delete/{id}','InvoiceController@delete');
+    Route::get('/{id}','InvoiceController@edit');
+    Route::get('/new', 'InvoiceController@create')->name('invoice.create');
+});
 
 Route::get('/halaman/{page?}', function ($page=1) {
     return "Halo, kamu sedang mengakses halaman ".$page;
@@ -34,9 +52,13 @@ Route::get('produk/{produk}',function(\App\Product $produk){
     dd($produk);
     return $produk->title." ".$produk->price." ".$produk->stock;
 });
+
+
 //route agar url berdasar nama tapi ke controller dulu, lihat modelnya juga
 Route::get('produk/nama/{produk}','TesController@nama');
+
 Route::get('cek','TesController@cek');
+Route::get('cek/customer/{id}','TesController@caricustomer');
 Route::get('/tes','TesController@create');
 Route::get('/tes/back','TesController@backing');
 Route::get('/edit','TesController@edit');

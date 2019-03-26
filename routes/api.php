@@ -25,3 +25,23 @@ Route::group(['prefix'=>'product'],function(){
     Route::get('/find/{id}','ProductController@edit');
     
 });
+
+Route::group(['prefix'=>'customer'],function(){
+    Route::get('/','CustomerController@getData');
+    Route::post('/','CustomerController@insertCustomer');
+    Route::post('/update/{id}','CustomerController@update');
+    Route::delete('/delete/{id}','CustomerController@delete');
+    Route::get('/find/{id}','CustomerController@edit');
+    
+});
+
+Route::group(['prefix'=>'invoices'],function(){
+    Route::get('/','InvoiceController@getData');
+    Route::post('/', 'InvoiceController@save')->name('invoice.store');
+    
+    Route::post('/update/{id}','InvoiceController@update');
+    Route::delete('/delete/{id}','InvoiceController@delete');
+    Route::get('/find/{id}','InvoiceController@edit');
+    Route::get('/new', 'InvoiceController@create')->name('invoice.create');
+    
+});

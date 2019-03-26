@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{aksi.status}} Produk</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{aksi.status}} Customer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -14,27 +14,28 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Nama Produk</label>
-                        <input type="text" name="namaProduk" class="form-control" v-model="aksi.ubah.title" v-validate="'required'" data-vv-as="Nama Produk" :class="{'is-invalid':errors.first('namaProduk')}" >
-                        <span v-if="errors.first('namaProduk')" class="text-danger">{{ errors.first('namaProduk') }}</span>
+                        <label>Nama Customer</label>
+                        <input type="text" name="namaCustomer" class="form-control" v-model="aksi.ubah.nama" v-validate="'required'" data-vv-as="Nama Customer" :class="{'is-invalid':errors.first('namaCustomer')}" >
+                        <span v-if="errors.first('namaCustomer')" class="text-danger">{{ errors.first('namaCustomer') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Telp</label>
+                        <input type="text" name="Phone" class="form-control" v-model="aksi.ubah.phone" v-validate="'required||numeric'" data-vv-as="Phone" :class="{'is-invalid':errors.first('Phone')}">
+                        <span v-if="errors.first('Phone')" class="text-danger">{{ errors.first('Phone') }}</span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea type="text" name="Deskripsi" rows="3" class="form-control" v-model="aksi.ubah.description" v-validate="'required'" data-vv-as="Deskripsi" :class="{'is-invalid':errors.first('Deskripsi')}"></textarea>
-                        <span v-if="errors.first('Deskripsi')" class="text-danger">{{ errors.first('Deskripsi') }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Harga</label>
-                        <input type="text" name="Harga" class="form-control" v-model="aksi.ubah.price" v-validate="'required||numeric'" data-vv-as="Harga" :class="{'is-invalid':errors.first('Harga')}">
-                        <span v-if="errors.first('Harga')" class="text-danger">{{ errors.first('Harga') }}</span>
+                        <label>Alamat</label>
+                        <textarea type="text" name="Address" rows="3" class="form-control" v-model="aksi.ubah.address" v-validate="'required'" data-vv-as="Address" :class="{'is-invalid':errors.first('Address')}"></textarea>
+                        <span v-if="errors.first('Address')" class="text-danger">{{ errors.first('Address') }}</span>
                     </div>
                 </div>
             </div>
@@ -42,9 +43,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Stok</label>
-                        <input type="text" name="stok" class="form-control" v-model="aksi.ubah.stock" v-validate="'required||numeric'" data-vv-as="Stok" :class="{'is-invalid':errors.first('Harga')}">
-                        <span v-if="errors.first('stok')" class="text-danger">{{ errors.first('stok') }}</span>
+                        <label>Email</label>
+                        <input type="email" name="Email" class="form-control" v-model="aksi.ubah.email" v-validate="'required||email'" data-vv-as="Email" :class="{'is-invalid':errors.first('Email')}">
+                        <span v-if="errors.first('Email')" class="text-danger">{{ errors.first('Email') }}</span>
                     </div>
                 </div>
             </div>
@@ -74,21 +75,21 @@ export default {
         
         Simpan(status){
             if(status=='Simpan'){
-                this.SimpanProduk();
+                this.SimpanCustomer();
             }
             else{
-                this.UbahProduk(this.aksi.ubah.id);
+                this.UbahCustomer(this.aksi.ubah.id);
 
             }
         },
-    SimpanProduk(e){
+    SimpanCustomer(e){
             this.$validator.validateAll().then((result) => {
             if (result) {
                 
-                let uri='http://localhost:8000/api/product';
+                let uri='http://localhost:8000/api/customer';
                 axios.post(uri,this.aksi.ubah).then((response)=>{
                      this.$swal.fire(
-                    'Produk Tersimpan!',
+                    'Customer Tersimpan!',
                     'You clicked the button!',
                     'success'
                     ).then(response=>{
@@ -102,21 +103,21 @@ export default {
             this.$swal.fire({
                         type: 'error',
                         title: 'Data Tidak Lengkap',
-                        text: 'Tolong Lengkapi Data Produk!'
+                        text: 'Tolong Lengkapi Data Customer!'
                         });
            });
             
 
         },
         
-        UbahProduk(id){
-            var title= this.aksi.ubah.title;
+        UbahCustomer(id){
+            var nama= this.aksi.ubah.nama;
             this.$validator.validateAll().then((result) => {
             if (result) {
-             let uri=`http://localhost:8000/api/product/update/${id}`;
+             let uri=`http://localhost:8000/api/customer/update/${id}`;
                 axios.post(uri,this.aksi.ubah).then((response)=>{
                      this.$swal.fire(
-                    'Produk '+title+' Telah Dirubah!',
+                    'Customer '+Nama+' Telah Dirubah!',
                     'You clicked the button!',
                     'success'
                     ).then(response=>{

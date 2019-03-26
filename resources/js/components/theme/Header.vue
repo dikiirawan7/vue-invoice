@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
-                <a class="navbar-brand" href="#">Navbar</a>
+                <router-link class="navbar-brand" to="/">Vue Invoice</router-link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -12,6 +12,12 @@
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/produk">Produk</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/customers">Customer</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/CreateInvoice">Buat Invoice</router-link>
                     </li>
                     </ul>
                 </div>

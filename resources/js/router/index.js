@@ -4,7 +4,8 @@ import VueAxios from 'vue-axios'
 import Axios from 'axios'
 import example from '../components/ExampleComponent.vue';
 import ManajemenProduk from '../components/content/Produk.vue';
-
+import ManajemenCustomer from '../components/content/Customer.vue';
+import CreateInvoice from '../components/content/CreateInvoice.vue';
 Vue.use(VueAxios, Axios)
 Vue.use(Router)
 
@@ -22,6 +23,16 @@ export default new Router({
             path:'/produk',
             name:'ManageProduk',
             component:ManajemenProduk
+        },
+        {
+            path:'/customers',
+            name:'ManageCustomer',
+            component:ManajemenCustomer
+        },
+        {
+            path:'/CreateInvoice',
+            name:'Buat Invoice',
+            component:CreateInvoice
         },
     ],
     linkExactActiveClass: "active"
