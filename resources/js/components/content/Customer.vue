@@ -15,8 +15,8 @@
                     </div>
                     
                     <div class="card-body">
-                        <table class="table table-hover table-striped">
-                            <thead>
+                        <table class="table table-hover table-striped table-bordered ">
+                            <thead class="text-center">
 
                                <tr>
                                     <td>No</td>
@@ -25,7 +25,7 @@
                                     <td>Alamat</td>
                                     <td>Email</td>
 
-                                    <td class="col-md-3">Aksi</td>
+                                    <td class="col-md-4" colspan="2">Aksi</td>
                                 </tr>
 
                             </thead>
@@ -39,6 +39,13 @@
                                     <td>
                                         <a @click="showModal(customer.id)"  class="btn btn-warning btn-xs">Edit</a>
                                         <button @click.prevent="deleteCustomer(customer.id,nomer)" class="btn btn-danger btn-xs">Hapus</button>
+                                    </td>
+                                    <td>
+                                        <form>
+                                            
+                                            <input type="hidden"  v-model="customer_id.optionss">
+                                            <button type="button" class="btn btn-primary btn-xs" @click.prevent="BuatInvoice(customer.id)">Buat Invoice</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 
@@ -89,6 +96,9 @@ export default {
     },
     data(){
         return{
+            customer_id:{
+                optionss:"",
+            },
             dataCustomer:[],
             meta_data:{
                     last_page:null,
@@ -114,6 +124,14 @@ export default {
         this.fetchUsers()
     },
     methods:{
+        BuatInvoice(id){
+                this.customer_id.optionss=id;
+                let uri='http://localhost:8000/api/invoices/';
+                axios.post(uri,this.customer_id).then(response=>{
+                    this.$router.push({name:'EditInvoice',params:{id:response.data.id}});//untuk reload location
+                });
+            
+        },
        CloseCustomer(){
             let element = this.$refs.modal.$el
                var closeModal= $(element).modal('hide');

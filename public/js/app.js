@@ -1857,6 +1857,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1880,7 +1881,10 @@ __webpack_require__.r(__webpack_exports__);
         var uri = 'http://localhost:8000/api/invoices/';
         axios.post(uri, this.customer_id).then(function (response) {
           _this.$router.push({
-            name: 'ManageCustomer'
+            name: 'EditInvoice',
+            params: {
+              id: response.data.id
+            }
           }); //untuk reload location
 
         });
@@ -1990,6 +1994,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2007,6 +2018,9 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
   },
   data: function data() {
     return {
+      customer_id: {
+        optionss: ""
+      },
       dataCustomer: [],
       meta_data: {
         last_page: null,
@@ -2030,6 +2044,21 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
     this.fetchUsers();
   },
   methods: {
+    BuatInvoice: function BuatInvoice(id) {
+      var _this = this;
+
+      this.customer_id.optionss = id;
+      var uri = 'http://localhost:8000/api/invoices/';
+      axios.post(uri, this.customer_id).then(function (response) {
+        _this.$router.push({
+          name: 'EditInvoice',
+          params: {
+            id: response.data.id
+          }
+        }); //untuk reload location
+
+      });
+    },
     CloseCustomer: function CloseCustomer() {
       var element = this.$refs.modal.$el;
       var closeModal = $(element).modal('hide');
@@ -2047,7 +2076,7 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
       }
     },
     fetchUsers: function fetchUsers() {
-      var _this = this;
+      var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.start();
@@ -2056,19 +2085,19 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
           page: page
         }
       }).then(function (response) {
-        _this.dataCustomer = response.data.data;
-        _this.meta_data.last_page = response.data.last_page;
-        _this.meta_data.range = 3;
-        _this.meta_data.current_page = response.data.current_page;
-        _this.meta_data.prev_page_url = response.data.prev_page_url;
-        _this.meta_data.prev_page_url = response.data.prev_page_url;
-        _this.meta_data.total = response.data.total;
-        _this.displayError = false;
+        _this2.dataCustomer = response.data.data;
+        _this2.meta_data.last_page = response.data.last_page;
+        _this2.meta_data.range = 3;
+        _this2.meta_data.current_page = response.data.current_page;
+        _this2.meta_data.prev_page_url = response.data.prev_page_url;
+        _this2.meta_data.prev_page_url = response.data.prev_page_url;
+        _this2.meta_data.total = response.data.total;
+        _this2.displayError = false;
 
-        if (_this.meta_data.total == 0) {
-          _this.jumlah.data = !_this.jumlah.data;
+        if (_this2.meta_data.total == 0) {
+          _this2.jumlah.data = !_this2.jumlah.data;
         } else {
-          _this.jumlah.data;
+          _this2.jumlah.data;
         }
 
         nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.done();
@@ -2076,17 +2105,17 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
         var statusCode = error.response.status;
 
         if (statusCode == 500) {
-          _this.errorMsg = 'Tidak Tersambung Ke Database';
+          _this2.errorMsg = 'Tidak Tersambung Ke Database';
         } else {
-          _this.errorMsg = error;
+          _this2.errorMsg = error;
         }
 
-        _this.displayError = true;
+        _this2.displayError = true;
         nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.done();
       });
     },
     showModal: function showModal(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (!id) {
         this.aksi.status = "Tambah";
@@ -2103,7 +2132,7 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
         this.aksi.klik = "Ubah";
         var uri = "http://localhost:8000/api/customer/find/".concat(id);
         axios.get(uri).then(function (response) {
-          _this2.aksi.ubah = response.data;
+          _this3.aksi.ubah = response.data;
         });
       }
 
@@ -2121,7 +2150,7 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     deleteCustomer: function deleteCustomer(id, no) {
-      var _this3 = this;
+      var _this4 = this;
 
       var uri = "http://localhost:8000/api/customer/delete/".concat(id);
       var nama = this.dataCustomer[no].nama;
@@ -2138,8 +2167,8 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
           axios.delete(uri).then(function (response) {
             nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.start(); //ini untuk menghapus data di front end   this.posts.splice(oke,1);
 
-            _this3.$swal.fire('Deleted!', 'Customer ' + nama + ' Berhasil Dihapus.', 'success').then(function (response) {
-              _this3.fetchUsers(_this3.meta_data.current_page); //this.$delete(this.posts, oke);
+            _this4.$swal.fire('Deleted!', 'Customer ' + nama + ' Berhasil Dihapus.', 'success').then(function (response) {
+              _this4.fetchUsers(_this4.meta_data.current_page); //this.$delete(this.posts, oke);
 
             });
           }).then(function (response) {
@@ -2150,6 +2179,250 @@ nprogress__WEBPACK_IMPORTED_MODULE_1___default.a.configure({
     }
   } //modal
 
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/content/EditInvoice.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/content/EditInvoice.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dataInvoice: {},
+      dataPelanggan: {},
+      dataProduk: [],
+      produk_id: {
+        produk: ''
+      }
+    };
+  },
+  methods: {
+    hapusproduk: function hapusproduk(id) {
+      var _this = this;
+
+      var uri = "http://localhost:8000/api/invoices/delete/".concat(id);
+      this.$swal.fire({
+        title: 'Apakah Kamu Yakin?',
+        text: "Menghapus ini maka data tidak akan kembali!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete(uri).then(function (response) {
+            nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start(); //ini untuk menghapus data di front end   this.posts.splice(oke,1);
+
+            _this.$swal.fire('Deleted!', 'Barang Berhasil Dihapus.', 'success').then(function (response) {
+              _this.tampilInvoice(); //this.$delete(this.posts, oke);
+
+            });
+          }).then(function (response) {
+            nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done();
+          });
+        }
+      });
+    },
+    tampilInvoice: function tampilInvoice() {
+      var _this2 = this;
+
+      nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start();
+      var uri = "http://localhost:8000/api/invoices/".concat(this.$route.params.id);
+      axios.get(uri).then(function (response) {
+        _this2.dataInvoice = response.data.invoice;
+        _this2.dataPelanggan = response.data.invoice.customer;
+        _this2.dataProduk = response.data.products;
+        nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done();
+      });
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+    tambahProduk: function tambahProduk() {
+      var _this3 = this;
+
+      if (this.produk_id.produk == '') {
+        this.$swal.fire({
+          type: 'error',
+          title: 'Data Tidak Lengkap',
+          text: 'Tolong Pilih Produk!'
+        });
+      } else {
+        var id = this.dataInvoice.id;
+        this.$validator.validateAll().then(function (result) {
+          if (result) {
+            var uri = 'http://localhost:8000/api/invoices/update/' + id;
+            axios.post(uri, _this3.produk_id).then(function (response) {
+              _this3.$swal.fire('Produk Tersimpan!', 'You clicked the button!', 'success').then(function (response) {
+                _this3.tampilInvoice();
+
+                _this3.produk_id = {};
+                _this3.produk_id.produk = '';
+              });
+            });
+            return;
+          }
+
+          _this3.$swal.fire({
+            type: 'error',
+            title: 'Data Tidak Lengkap',
+            text: 'Tolong Lengkapi Data Customer!'
+          });
+        });
+      }
+    }
+  },
+  created: function created() {
+    this.tampilInvoice();
+  }
 });
 
 /***/ }),
@@ -7278,7 +7551,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.nav-item{\npadding:0;\n}\n.active {\n background-color:antiquewhite;\n color:black !important;\n}\n", ""]);
+exports.push([module.i, "\n.nav-item{\npadding:0;\n}\n.navbar-brand.active{\n color:black !important;\n}\n.active {\n background-color:antiquewhite;\n color:black !important;\n}\n", ""]);
 
 // exports
 
@@ -65863,7 +66136,10 @@ var render = function() {
               [
                 _c(
                   "table",
-                  { staticClass: "table table-hover table-striped" },
+                  {
+                    staticClass:
+                      "table table-hover table-striped table-bordered "
+                  },
                   [
                     _vm._m(1),
                     _vm._v(" "),
@@ -65916,6 +66192,50 @@ var render = function() {
                               },
                               [_vm._v("Hapus")]
                             )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("form", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.customer_id.optionss,
+                                    expression: "customer_id.optionss"
+                                  }
+                                ],
+                                attrs: { type: "hidden" },
+                                domProps: { value: _vm.customer_id.optionss },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.customer_id,
+                                      "optionss",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary btn-xs",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.BuatInvoice(customer.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Buat Invoice")]
+                              )
+                            ])
                           ])
                         ])
                       ])
@@ -66009,7 +66329,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("thead", { staticClass: "text-center" }, [
       _c("tr", [
         _c("td", [_vm._v("No")]),
         _vm._v(" "),
@@ -66021,7 +66341,390 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("td", [_vm._v("Email")]),
         _vm._v(" "),
-        _c("td", { staticClass: "col-md-3" }, [_vm._v("Aksi")])
+        _c("td", { staticClass: "col-md-4", attrs: { colspan: "2" } }, [
+          _vm._v("Aksi")
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/content/EditInvoice.vue?vue&type=template&id=f4f01edc&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/content/EditInvoice.vue?vue&type=template&id=f4f01edc& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container pt-3" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("table", [
+                  _c("tr", [
+                    _c("td", { attrs: { width: "30%" } }, [
+                      _vm._v("Pelanggan")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.dataPelanggan.nama))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Alamat")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.dataPelanggan.address))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("No Telp")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.dataPelanggan.phone))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Email")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.dataPelanggan.email))])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12 mt-3" }, [
+                _c("form", [
+                  _c(
+                    "table",
+                    { staticClass: "table table-hover table-bordered" },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.dataInvoice.detail, function(
+                          dataProduk,
+                          no
+                        ) {
+                          return _c("tr", { key: dataProduk.id }, [
+                            _c("td", [_vm._v(_vm._s(no + 1))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(dataProduk.product.title))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(dataProduk.qty))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "Rp." +
+                                  _vm._s(_vm.formatPrice(dataProduk.price))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "Rp." +
+                                  _vm._s(_vm.formatPrice(dataProduk.Subtotal))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-danger",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.hapusproduk(dataProduk.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Hapus")]
+                              )
+                            ])
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c("tfoot", [
+                        _c("tr", [
+                          _c("td"),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.produk_id.produk,
+                                    expression: "produk_id.produk"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.produk_id,
+                                      "produk",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  { attrs: { value: "", disabled: "" } },
+                                  [_vm._v("Pilih Produk")]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(_vm.dataProduk, function(produkc) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: produkc.id,
+                                      domProps: { value: produkc.id }
+                                    },
+                                    [_vm._v(_vm._s(produkc.title))]
+                                  )
+                                })
+                              ],
+                              2
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "col-md-4" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.produk_id.qty,
+                                  expression: "produk_id.qty"
+                                },
+                                {
+                                  name: "validate",
+                                  rawName: "v-validate",
+                                  value: "required||numeric||min_value:1",
+                                  expression: "'required||numeric||min_value:1'"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.errors.first("jumlah")
+                              },
+                              attrs: {
+                                type: "number",
+                                name: "jumlah",
+                                "data-vv-as": "jumlah",
+                                placeholder: "jumlah"
+                              },
+                              domProps: { value: _vm.produk_id.qty },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.produk_id,
+                                    "qty",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm.errors.first("jumlah")
+                              ? _c("span", { staticClass: "text-danger" }, [
+                                  _vm._v(_vm._s(_vm.errors.first("jumlah")))
+                                ])
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { attrs: { colspan: "3" } }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary btn-sm",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.tambahProduk($event)
+                                  }
+                                }
+                              },
+                              [_vm._v("Tambahkan")]
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 offset-md-8" }, [
+                _c(
+                  "table",
+                  { staticClass: "table table-hover table-bordered" },
+                  [
+                    _c("tr", [
+                      _c("td", [_vm._v("Sub Total")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(":")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "Rp." + _vm._s(_vm.formatPrice(_vm.dataInvoice.total))
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Pajak")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(":")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "2% (Rp." +
+                            _vm._s(_vm.formatPrice(_vm.dataInvoice.Tax)) +
+                            ") "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Total")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(":")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "Rp." +
+                            _vm._s(_vm.formatPrice(_vm.dataInvoice.TotalPrice))
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c("h1", [_vm._v("Ini Invoice")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("table", [
+        _c("tr", [
+          _c("td", [_vm._v("Perusahaan")]),
+          _vm._v(" "),
+          _c("td", [_vm._v(":")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("PT.Invoice")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("Alamat")]),
+          _vm._v(" "),
+          _c("td", [_vm._v(":")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Jln. Dimana Aja")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("No Telp")]),
+          _vm._v(" "),
+          _c("td", [_vm._v(":")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("0812132322")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v("Email")]),
+          _vm._v(" "),
+          _c("td", [_vm._v(":")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("support@invoiceVue.id")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "text-center" }, [
+      _c("tr", [
+        _c("td", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Produk")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Qty")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Harga")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Subtotal")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Action")])
       ])
     ])
   }
@@ -66227,7 +66930,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("thead", { staticClass: "text-center" }, [
       _c("tr", [
         _c("td", [_vm._v("No")]),
         _vm._v(" "),
@@ -82447,6 +83150,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/content/EditInvoice.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/content/EditInvoice.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditInvoice_vue_vue_type_template_id_f4f01edc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditInvoice.vue?vue&type=template&id=f4f01edc& */ "./resources/js/components/content/EditInvoice.vue?vue&type=template&id=f4f01edc&");
+/* harmony import */ var _EditInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditInvoice.vue?vue&type=script&lang=js& */ "./resources/js/components/content/EditInvoice.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditInvoice_vue_vue_type_template_id_f4f01edc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditInvoice_vue_vue_type_template_id_f4f01edc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/content/EditInvoice.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/content/EditInvoice.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/content/EditInvoice.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditInvoice.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/content/EditInvoice.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditInvoice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/content/EditInvoice.vue?vue&type=template&id=f4f01edc&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/content/EditInvoice.vue?vue&type=template&id=f4f01edc& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditInvoice_vue_vue_type_template_id_f4f01edc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditInvoice.vue?vue&type=template&id=f4f01edc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/content/EditInvoice.vue?vue&type=template&id=f4f01edc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditInvoice_vue_vue_type_template_id_f4f01edc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditInvoice_vue_vue_type_template_id_f4f01edc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/content/Produk.vue":
 /*!****************************************************!*\
   !*** ./resources/js/components/content/Produk.vue ***!
@@ -82867,6 +83639,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_content_Produk_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/content/Produk.vue */ "./resources/js/components/content/Produk.vue");
 /* harmony import */ var _components_content_Customer_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/content/Customer.vue */ "./resources/js/components/content/Customer.vue");
 /* harmony import */ var _components_content_CreateInvoice_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/content/CreateInvoice.vue */ "./resources/js/components/content/CreateInvoice.vue");
+/* harmony import */ var _components_content_EditInvoice_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/content/EditInvoice.vue */ "./resources/js/components/content/EditInvoice.vue");
+
 
 
 
@@ -82896,6 +83670,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/CreateInvoice',
     name: 'Buat Invoice',
     component: _components_content_CreateInvoice_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+  }, {
+    path: '/EditInvoice/:id',
+    name: 'EditInvoice',
+    component: _components_content_EditInvoice_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
   }],
   linkExactActiveClass: "active"
 }));

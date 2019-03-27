@@ -18,6 +18,7 @@
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary" @click.prevent="Simpan()">Simpan</button>
+                                
                             </div>
                         </form>
                     </div>
@@ -33,7 +34,7 @@ export default {
         return{
             dataCustomer:[],
             customer_id:{
-                optionss:""
+                optionss:"",
             },
     
 
@@ -51,7 +52,7 @@ export default {
             else{
                 let uri='http://localhost:8000/api/invoices/';
                 axios.post(uri,this.customer_id).then(response=>{
-                    this.$router.push({name:'ManageCustomer'});//untuk reload location
+                    this.$router.push({name:'EditInvoice',params:{id:response.data.id}});//untuk reload location
                 });
             }
         }

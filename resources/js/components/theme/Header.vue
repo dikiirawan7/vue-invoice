@@ -28,7 +28,9 @@
  .nav-item{
 padding:0;
  }   
-
+ .navbar-brand.active{
+ color:black !important;    
+ }
  .active {
  background-color:antiquewhite;
  color:black !important;
