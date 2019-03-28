@@ -38,11 +38,13 @@ Route::group(['prefix'=>'customer'],function(){
 Route::group(['prefix'=>'invoices'],function(){
     Route::get('/','InvoiceController@getData');
     Route::post('/', 'InvoiceController@save')->name('invoice.store');
+    Route::get('/listinvoice','InvoiceController@get_invoice_detail');
     Route::get('/{id}','InvoiceController@edit');
     Route::post('/update/{id}','InvoiceController@update');
     Route::get('/update/{id}','InvoiceController@listBarang');
     Route::post('/update/{id}','InvoiceController@update');
     Route::delete('/delete/{id}','InvoiceController@deletebarang');
+    Route::delete('/deleteinvoice/{id}','InvoiceController@deleteinvoice');
     Route::get('/find/{id}','InvoiceController@edit');
     Route::get('/new', 'InvoiceController@create')->name('invoice.create');
     

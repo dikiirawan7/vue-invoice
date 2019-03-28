@@ -37,6 +37,7 @@ Route::group(['prefix'=>'customer'],function(){
 Route::group(['prefix'=>'invoice'],function(){
     Route::get('/','InvoiceController@getData');
     Route::post('/', 'InvoiceController@save')->name('invoice.store');
+    Route::get('/listinvoice','InvoiceController@get_invoice_detail');
     Route::get('/{id}','InvoiceController@edit');
     Route::get('/update/{id}','InvoiceController@listBarang');
     Route::post('/update/{id}','InvoiceController@update');

@@ -11,6 +11,14 @@ class InvoiceController extends Controller
 {
     //
 
+    public function get_invoice_detail()
+    {
+        
+        $invoice = Invoice::with(['customer','detail'])->orderby('created_at','DESC')->paginate(10);
+
+        return response()->json($invoice);
+    }
+
     public function getData(){
        return $customers = Customer::orderBy('created_at','DESC')->get(); 
     }
@@ -50,6 +58,11 @@ class InvoiceController extends Controller
 
     public function deletebarang($id){
         $data= Invoice_detail::destroy($id);
+        return response()->json($data);
+    }
+
+    public function deleteinvoice($id){
+        $data= Invoice::destroy($id);
         return response()->json($data);
     }
 

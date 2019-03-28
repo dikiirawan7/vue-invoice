@@ -7,6 +7,7 @@ import ManajemenProduk from '../components/content/Produk.vue';
 import ManajemenCustomer from '../components/content/Customer.vue';
 import CreateInvoice from '../components/content/CreateInvoice.vue';
 import EditInvoice from '../components/content/EditInvoice.vue';
+import ListInvoice from '../components/content/ListInvoice.vue';
 Vue.use(VueAxios, Axios)
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
             path:'/EditInvoice/:id',
             name:'EditInvoice',
             component:EditInvoice
+        },
+        {
+            path:'/',
+            name:'ListInvoice',
+            component:ListInvoice
         },
     ],
     linkExactActiveClass: "active"

@@ -209,7 +209,7 @@ export default {
                     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
                 },
     
-        deleteProduk(id,no){
+            deleteProduk(id,no){
 
             let uri = `http://localhost:8000/api/product/delete/${id}`;
             var Title = this.dataProduk[no].title;
