@@ -86227,7 +86227,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   routes: [{
     path: '/produk/tes',
     name: 'HelloWorld',
-    component: _components_ExampleComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _components_ExampleComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/produk',
     name: 'ManageProduk',
@@ -86239,19 +86242,31 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/customers',
     name: 'ManageCustomer',
-    component: _components_content_Customer_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _components_content_Customer_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/CreateInvoice',
     name: 'Buat Invoice',
-    component: _components_content_CreateInvoice_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+    component: _components_content_CreateInvoice_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/EditInvoice/:id',
     name: 'EditInvoice',
-    component: _components_content_EditInvoice_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
+    component: _components_content_EditInvoice_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/listinvoice',
     name: 'ListInvoice',
-    component: _components_content_ListInvoice_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _components_content_ListInvoice_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/login',
     name: 'login',

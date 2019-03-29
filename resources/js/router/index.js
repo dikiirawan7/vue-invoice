@@ -23,7 +23,8 @@ export default new Router({
         {
             path:'/produk/tes',
             name:'HelloWorld',
-            component:example
+            component:example,
+            meta: { requiresAuth: true }  
         },
         {
             path:'/produk',
@@ -34,22 +35,26 @@ export default new Router({
         {
             path:'/customers',
             name:'ManageCustomer',
-            component:ManajemenCustomer
+            component:ManajemenCustomer,
+            meta: { requiresAuth: true }  
         },
         {
             path:'/CreateInvoice',
             name:'Buat Invoice',
-            component:CreateInvoice
+            component:CreateInvoice,
+            meta: { requiresAuth: true }  
         },
         {
             path:'/EditInvoice/:id',
             name:'EditInvoice',
-            component:EditInvoice
+            component:EditInvoice,
+            meta: { requiresAuth: true }  
         },
         {
             path:'/listinvoice',
             name:'ListInvoice',
-            component:ListInvoice
+            component:ListInvoice,
+            meta: { requiresAuth: true }  
         },
         {
             path:'/login',
