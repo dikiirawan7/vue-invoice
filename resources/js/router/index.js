@@ -8,6 +8,10 @@ import ManajemenCustomer from '../components/content/Customer.vue';
 import CreateInvoice from '../components/content/CreateInvoice.vue';
 import EditInvoice from '../components/content/EditInvoice.vue';
 import ListInvoice from '../components/content/ListInvoice.vue';
+import Login from '../components/tesauth/Login.vue';
+import Dashboard from '../components/tesauth/DashboardComponent.vue';
+import Logout from '../components/tesauth/LogoutComponent.vue';
+
 Vue.use(VueAxios, Axios)
 Vue.use(Router)
 
@@ -24,7 +28,8 @@ export default new Router({
         {
             path:'/produk',
             name:'ManageProduk',
-            component:ManajemenProduk
+            component:ManajemenProduk,
+            meta: { requiresAuth: true }  // add this
         },
         {
             path:'/customers',
@@ -42,10 +47,27 @@ export default new Router({
             component:EditInvoice
         },
         {
-            path:'/',
+            path:'/listinvoice',
             name:'ListInvoice',
             component:ListInvoice
         },
+        {
+            path:'/login',
+            name:'login',
+            component:Login
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: Dashboard,
+            meta: { requiresAuth: true }  // add this
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: Logout
+        }
     ],
     linkExactActiveClass: "active"
 });
+

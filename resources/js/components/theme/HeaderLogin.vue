@@ -8,20 +8,9 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link  class="nav-link" to="/produk/tes">Home <span class="sr-only">(current)</span></router-link>
+                        <router-link  class="nav-link" to="/produk/tes">Register <span class="sr-only">(current)</span></router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/produk">Produk</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/customers">Customer</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/listinvoice">Manajemen Invoice</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/CreateInvoice">Buat Invoice</router-link>
-                    </li>
+                    
                     </ul>
                 </div>
         </nav>

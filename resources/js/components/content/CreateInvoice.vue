@@ -11,7 +11,7 @@
                             <div class="form-group" >
                                 <label>Customer</label>
                                 <select name="Customer_id" class="form-control" v-model="customer_id.optionss" >
-                                    <option value="" disabled>Select a category</option>
+                                    <option value="" disabled>Pilih Customer</option>
                                     <option v-for="customer in dataCustomer" :key="customer.id" :value="customer.id">{{customer.nama}}</option>
                                 </select>
                                 
